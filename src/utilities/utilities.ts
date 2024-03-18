@@ -55,3 +55,17 @@ export const filterProducts = (
       product.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 };
+
+export const sortProducts = (
+  products: productType[],
+  sortBy: "title" | "price"
+): productType[] => {
+  return products.slice().sort((a, b) => {
+    if (sortBy === "title") {
+      return a.title.localeCompare(b.title);
+    } else if (sortBy === "price") {
+      return a.price - b.price;
+    }
+    return 0;
+  });
+};

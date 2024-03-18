@@ -1,10 +1,15 @@
-import { FETCH_PRODUCTS, FILTER_PRODUCTS } from "./constants";
+import { FETCH_PRODUCTS, FILTER_PRODUCTS, SORT_PRODUCTS } from "./constants";
 import { productType } from "../../types/types";
-import { filterProducts } from "../../utilities/utilities";
+import { filterProducts, sortProducts } from "../../utilities/utilities";
 
 export interface FetchProductsAction {
   type: typeof FETCH_PRODUCTS;
   payload: productType[];
+}
+
+export interface sortProductsAction {
+  type: typeof SORT_PRODUCTS;
+  payload: "title" | "price";
 }
 
 export interface FilterProductsAction {
@@ -12,7 +17,10 @@ export interface FilterProductsAction {
   payload: string;
 }
 
-export type ProductActionTypes = FetchProductsAction | FilterProductsAction;
+export type ProductActionTypes =
+  | FetchProductsAction
+  | FilterProductsAction
+  | sortProductsAction;
 
 interface ProductState {
   products: productType[];
@@ -34,13 +42,14 @@ const productReducer = (
       };
 
     case FILTER_PRODUCTS:
-      const filteredProducts =
-        action.payload.trim() === ""
-          ? state.products
-          : filterProducts(state.products, action.payload);
       return {
         ...state,
-        products: filteredProducts,
+        products: filterProducts(state.products, action.payload),
+      };
+    case SORT_PRODUCTS:
+      return {
+        ...state,
+        products: sortProducts(state.products, action.payload),
       };
     default:
       return state;
