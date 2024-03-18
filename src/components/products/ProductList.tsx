@@ -7,11 +7,13 @@ import { productType } from "../../types/types";
 import {
   fetchProductsAction,
   filteredProductsAction,
+  searchProductsAction,
   sortProductsAction,
 } from "../../redux/productSlices/action";
 import "./product.scss";
 
 import Search from "../search/Search";
+import Sort from "../sort/Sort";
 
 const ProductList = () => {
   const dispatch = useDispatch();
@@ -30,7 +32,7 @@ const ProductList = () => {
   }, [dispatch]);
 
   const handleSearch = (searchQuery: string) => {
-    dispatch(filteredProductsAction(searchQuery));
+    dispatch(searchProductsAction(searchQuery));
     if (searchQuery.trim() === "") {
       fetchProductsData();
     }
@@ -43,11 +45,8 @@ const ProductList = () => {
   return (
     <>
       <Search products={products} onSearch={handleSearch} />
+      <Sort handleSort={handleSort} />
       <div className="product-flex">
-        <div className="sort-buttons">
-          <button onClick={() => handleSort("title")}>Sort by Title</button>
-          <button onClick={() => handleSort("price")}>Sort by Price</button>
-        </div>
         {products.map((product: productType) => (
           <ProductItem key={product.id} product={product} />
         ))}

@@ -69,3 +69,17 @@ export const sortProducts = (
     return 0;
   });
 };
+
+// export const filterData = (
+//   data: productType[]   //[key: string]: string | number;,
+//   filters: { [key: string]: string |number}
+// ) => {
+//   return data.filter((item) => {
+//     for (const key in filters) {
+//       if (filters[key] !== "" && String(item[key]) !== filters[key]) {
+//         return false;
+//       }
+//     }
+//     return true;
+//   });
+// };

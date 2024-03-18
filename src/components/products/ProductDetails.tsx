@@ -11,11 +11,15 @@ const ProductDetails: FC = () => {
   const [product, setProduct] = useState<productType | null>(null);
   const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch();
+
+  const [countValue, setCountValue] = useState<number>(0);
+
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
         const productData = await getProduct(+id!);
         setProduct(productData);
+        setCountValue(productData.count);
       } catch (error) {
         console.error("Error fetching product details:", error);
       }
@@ -27,9 +31,8 @@ const ProductDetails: FC = () => {
   if (!product) {
     return <div>Loading...</div>;
   }
-  const { imageUrl, title, description, count, price } = product as productType;
+  const { imageUrl, title, description, count, price } = product;
 
-  const [countValue, setCountValue] = useState(product.count);
   const handleAddToCart = async (product: productType) => {
     try {
       await addToCard(product);
@@ -37,8 +40,9 @@ const ProductDetails: FC = () => {
   };
 
   const updateQuantity = (id: number, e: ChangeEvent<HTMLInputElement>) => {
-    setCountValue(Number(e.target.value));
-    dispatch(updateQuantityAction({ count, id }));
+    const newValue = Number(e.target.value);
+    setCountValue(newValue);
+    dispatch(updateQuantityAction({ count: newValue, id }));
   };
 
   return (
