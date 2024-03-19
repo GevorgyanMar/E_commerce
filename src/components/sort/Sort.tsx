@@ -7,8 +7,12 @@ interface SortProps {
 const Sort: FC<SortProps> = ({ handleSort }) => {
   return (
     <div className="sort-buttons">
-      <button onClick={() => handleSort("title")}>Sort by Title</button>
-      <button onClick={() => handleSort("price")}>Sort by Price</button>
+      <button className="G-btn" onClick={() => handleSort("title")}>
+        Sort by Title
+      </button>
+      <button className="G-btn" onClick={() => handleSort("price")}>
+        Sort by Price
+      </button>
     </div>
   );
 };

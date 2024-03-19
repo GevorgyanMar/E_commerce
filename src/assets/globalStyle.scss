@@ -93,3 +93,15 @@
     width: 100%;
   }
 }
+
+.filter-flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sort-buttons {
+  margin: 20px 0;
+  .G-btn + .G-btn {
+    margin-left: 15px;
+  }
+}

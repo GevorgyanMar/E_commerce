@@ -1,5 +1,5 @@
 import { USERS_LOCAL_STORAGE_KEY } from "../constants/constants";
-import { UserType, productType } from "../types/types";
+import { FilterOptions, UserType, productType } from "../types/types";
 
 export const dateFormat = (date: Date | string): string => {
   let d: Date;
@@ -70,16 +70,37 @@ export const sortProducts = (
   });
 };
 
-// export const filterData = (
-//   data: productType[]   //[key: string]: string | number;,
-//   filters: { [key: string]: string |number}
-// ) => {
-//   return data.filter((item) => {
-//     for (const key in filters) {
-//       if (filters[key] !== "" && String(item[key]) !== filters[key]) {
-//         return false;
-//       }
-//     }
-//     return true;
-//   });
-// };
+export function applyFilters(
+  items: productType[],
+  filters: FilterOptions
+): productType[] {
+  return items.filter(({ count, price, title, description }) => {
+    const { titleFilter, descriptionFilter, countFilter, priceFilter } =
+      filters;
+
+    const priceMatch =
+      !isNaN(price) && !isNaN(+priceFilter) && price <= +priceFilter;
+
+    const countMatch =
+      !isNaN(price) && !isNaN(+countFilter) && count <= +countFilter;
+    const titleMatch = title.toLowerCase().includes(titleFilter.toLowerCase());
+    const descriptionMatch = description
+      .toLowerCase()
+      .includes(descriptionFilter.toLowerCase());
+
+    const titleFilterFilled = titleFilter !== "";
+    const descriptionFilterFilled = descriptionFilter !== "";
+
+    if (descriptionFilterFilled) {
+      return descriptionMatch;
+    } else if (titleFilterFilled) {
+      return titleMatch;
+    } else if (priceFilter) {
+      return priceMatch;
+    } else if (countFilter) {
+      return countMatch;
+    } else {
+      return true;
+    }
+  });
+}

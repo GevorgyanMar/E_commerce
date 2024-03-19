@@ -14,6 +14,7 @@ import "./product.scss";
 
 import Search from "../search/Search";
 import Sort from "../sort/Sort";
+import Filter from "../Filter/Filter";
 
 const ProductList = () => {
   const dispatch = useDispatch();
@@ -46,6 +47,7 @@ const ProductList = () => {
     <>
       <Search products={products} onSearch={handleSearch} />
       <Sort handleSort={handleSort} />
+      <Filter />
       <div className="product-flex">
         {products.map((product: productType) => (
           <ProductItem key={product.id} product={product} />

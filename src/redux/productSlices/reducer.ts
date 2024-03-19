@@ -7,6 +7,7 @@ import {
 import { productType } from "../../types/types";
 
 import {
+  applyFilters,
   //  filterData,
   filterProducts,
   sortProducts,
@@ -28,7 +29,12 @@ export interface searchProductsAction {
 }
 export interface filterProductsAction {
   type: typeof FILTER_PRODUCTS;
-  payload: string;
+  payload: {
+    countFilter: number;
+    priceFilter: number;
+    titleFilter: string;
+    descriptionFilter: string;
+  };
 }
 
 export type ProductActionTypes =
@@ -69,7 +75,7 @@ const productReducer = (
     case FILTER_PRODUCTS:
       return {
         ...state,
-        // products: filterData(state.products, action.payload),
+        products: applyFilters(state.products, action.payload),
       };
     default:
       return state;

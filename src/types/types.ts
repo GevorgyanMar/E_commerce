@@ -29,3 +29,10 @@ export type OrderType = {
   date: string;
   items: productType[];
 };
+
+export type FilterOptions = {
+  countFilter: number;
+  priceFilter: number;
+  titleFilter: string;
+  descriptionFilter: string;
+};
